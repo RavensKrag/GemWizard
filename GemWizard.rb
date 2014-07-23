@@ -171,6 +171,18 @@ end
 	end
 
 # lib
+	Dir.chdir File.join output_dir, 'lib' do
+		# create directory structure
+		dirname = config[:name].dasherize
+		FileUtils.mkdir_p(dirname) unless File.directory?(dirname)
+		
+		
+		# Create necessary files
+		name = config[:name].dasherize
+		File.open "./#{name}.rb", 'w' do |f|
+			f.puts "# require '#{name}/#{name}' # Load c extension files"
+		end
+	end
 	
 
 # test
