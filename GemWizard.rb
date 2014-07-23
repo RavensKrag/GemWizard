@@ -48,6 +48,19 @@ Dir.chdir path_to_file do
 end
 
 
+
+
+module GemWizard
+	class Wizard
+
+
+def initialize()
+	
+end
+
+
+private
+
 def make_from_template(input_file, output_file, &block)
 	# read in template
 	str = File.readlines(input_file).join
@@ -61,23 +74,20 @@ def make_from_template(input_file, output_file, &block)
 	end
 	
 	return str
-end
+end 
 
 
 
 
-
-
-
-# README
+def readme
 	filename = 'README.md'
 	path = File.join output_dir, filename
 	File.open(path, 'w') do |f|
 		
 	end
+end
 
-
-# gemspec
+def gemspec
 	input_path = File.join template_dir, "#{template_project_name}.gemspec"
 	output_path = File.join output_dir, "#{config[:name].dasherize}.gemspec"
 
@@ -95,9 +105,9 @@ end
 		
 		str # pseudo return
 	end
+end
 
-
-# rakefile
+def rakefile
 	input_path = File.join template_dir, 'Rakefile'
 	output_path = File.join output_dir, 'Rakefile'
 
@@ -109,23 +119,23 @@ end
 		
 		str # pseudo return
 	end
+end
 
 
 
-
-
-# directory structure
+def directory_structure
 	Dir.chdir output_dir do
 		%w[bin ext lib test].each do |dirname|
 			FileUtils.mkdir_p(dirname) unless File.directory?(dirname)
 		end
 	end
+end
 
-
-# bin
+def bin
 	# NOTHING
+end
 
-# ext
+def ext
 	# create directory structure
 	Dir.chdir File.join output_dir, 'ext' do
 		dirname = config[:name].dasherize
@@ -169,8 +179,9 @@ end
 			str
 		end
 	end
+end
 
-# lib
+def lib
 	Dir.chdir File.join output_dir, 'lib' do
 		# create directory structure
 		dirname = config[:name].dasherize
@@ -183,9 +194,9 @@ end
 			f.puts "# require '#{name}/#{name}' # Load c extension files"
 		end
 	end
-	
+end
 
-# test
+def test
 	full_input_path  = File.join template_dir, 'test', 'test.rb'
 	full_output_path = File.join output_dir,   'test', 'test.rb'
 	
@@ -199,3 +210,9 @@ end
 		
 		str
 	end
+end
+
+
+
+end
+end
