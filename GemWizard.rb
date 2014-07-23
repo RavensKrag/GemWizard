@@ -186,4 +186,16 @@ end
 	
 
 # test
+	full_input_path  = File.join template_dir, 'test', 'test.rb'
+	full_output_path = File.join output_dir,   'test', 'test.rb'
 	
+	make_from_template full_input_path, full_output_path do |str|
+		# replace names of the gem
+		str.gsub! /#{template_project_name.constantize}Test/, "#{config[:name].constantize}Test"
+		
+		
+		str.gsub! /#{template_project_name.dasherize}/, config[:name].dasherize
+		
+		
+		str
+	end
