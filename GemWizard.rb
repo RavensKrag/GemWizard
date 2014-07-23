@@ -156,6 +156,16 @@ end
 		full_output_path = File.expand_path output, output_dir
 		
 		make_from_template full_input_path, full_output_path do |str|
+			# replace names of the gem
+			str.gsub! /Init_#{template_project_name.underscore}/, "Init_#{config[:name].underscore}"
+			
+			str.gsub! /#{template_project_name.dasherize}/, config[:name].dasherize
+			str.gsub! /#{template_project_name.constantize}/, config[:name].constantize
+			
+			
+			# str.gsub! /#{template_project_name.underscore}/, "#{config[:name].underscore}"
+			
+			
 			str
 		end
 	end

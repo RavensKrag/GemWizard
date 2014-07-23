@@ -1,0 +1,14 @@
+NOTES
+
+note that sometimes things are separated by dashes,
+while in other cases you want to separate with underscores
+(directories are dashes, as is the name of the library)
+(but the name as it appears in C function calls NEEDs to used underscores)
+
+in ext/gem-name.c
+	it must be
+		Init_gem_name()
+	rather than
+		Init_gem-name()
+	
+	as the latter is not a valid C function name
