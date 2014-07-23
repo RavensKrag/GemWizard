@@ -100,46 +100,43 @@ end
 
 
 
-
-
-
 # README
-filename = 'README.md'
-path = File.join output_dir, filename
-File.open(path, 'w') do |f|
-	
-end
+	filename = 'README.md'
+	path = File.join output_dir, filename
+	File.open(path, 'w') do |f|
+		
+	end
 
 
 # gemspec
-input_path = File.join template_dir, "#{template_project_name}.gemspec"
-output_path = File.join output_dir, "#{config[:name].dasherize}.gemspec"
+	input_path = File.join template_dir, "#{template_project_name}.gemspec"
+	output_path = File.join output_dir, "#{config[:name].dasherize}.gemspec"
 
-make_from_template input_path, output_path do |str|
-	# replace names of the gem
-	str.gsub! /#{template_project_name.dasherize}/, config[:name].dasherize
-	str.gsub! /#{template_project_name.constantize}/, config[:name].constantize
-	
-	# replace parameters
-	[:authors, :email, :homepage, :summary, :description].each do |param|
-		str.gsub! /(s\.#{param}(?:.*?)= )(.*?)$/, '\1'+"#{config[param].inspect}"
+	make_from_template input_path, output_path do |str|
+		# replace names of the gem
+		str.gsub! /#{template_project_name.dasherize}/, config[:name].dasherize
+		str.gsub! /#{template_project_name.constantize}/, config[:name].constantize
+		
+		# replace parameters
+		[:authors, :email, :homepage, :summary, :description].each do |param|
+			str.gsub! /(s\.#{param}(?:.*?)= )(.*?)$/, '\1'+"#{config[param].inspect}"
+		end
+		
+		
+		
+		str # pseudo return
 	end
-	
-	
-	
-	str # pseudo return
-end
 
 
 # rakefile
-input_path = File.join template_dir, 'Rakefile'
-output_path = File.join output_dir, 'Rakefile'
+	input_path = File.join template_dir, 'Rakefile'
+	output_path = File.join output_dir, 'Rakefile'
 
-make_from_template input_path, output_path do |str|
-	# replace names of the gem
-	str.gsub! /#{template_project_name.dasherize}/, config[:name].dasherize
-	str.gsub! /#{template_project_name.constantize}/, config[:name].constantize
-	
-	
-	str # pseudo return
-end
+	make_from_template input_path, output_path do |str|
+		# replace names of the gem
+		str.gsub! /#{template_project_name.dasherize}/, config[:name].dasherize
+		str.gsub! /#{template_project_name.constantize}/, config[:name].constantize
+		
+		
+		str # pseudo return
+	end
