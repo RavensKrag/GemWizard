@@ -137,7 +137,7 @@ end
 	output_name = config[:name].dasherize
 	
 	
-	# (generate nested array structure of paired template/destination relative filepaths)
+	# (get template file names)
 	path = File.join '.', 'ext', '**', '*' # './DIR/**/*' grabs everything under DIR recursively
 	templates = nil
 	Dir.chdir template_dir do
@@ -146,11 +146,12 @@ end
 		templates.reject!{|i| File.directory? i }
 	end
 	
-	list = templates.zip templates.collect{|i| i.gsub /#{input_name}/, output_name}
+	# (generate pairs of templates, and their source destinations)
+	pairs = templates.zip templates.collect{|i| i.gsub /#{input_name}/, output_name}
 	
 	
-	# (traverse list, copying over things as necessary)
-	list.each do |input, output|
+	# (traverse list of pairs, copying over things as necessary)
+	pairs.each do |input, output|
 		full_input_path = File.expand_path input, template_dir
 		full_output_path = File.expand_path output, output_dir
 		
