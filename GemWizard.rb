@@ -138,10 +138,12 @@ end
 	
 	
 	# (generate nested array structure of paired template/destination relative filepaths)
-	path = File.join '.', 'ext', input_name.dasherize, '*'
+	path = File.join '.', 'ext', '**', '*' # './DIR/**/*' grabs everything under DIR recursively
 	templates = nil
 	Dir.chdir template_dir do
+		# need relative paths, not absolute ones, so you need to change directory
 		templates = Dir[path]
+		templates.reject!{|i| File.directory? i }
 	end
 	
 	list = templates.zip templates.collect{|i| i.gsub /#{input_name}/, output_name}
