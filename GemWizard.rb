@@ -159,7 +159,7 @@ def ext
 			# str.gsub! /#{@template_project_name.underscore}/, "#{@config[:name].underscore}"
 			
 			
-			str
+			str # pseudo return
 		end
 	end
 end
@@ -191,7 +191,7 @@ def test
 		str.gsub! /#{@template_project_name.dasherize}/, @config[:name].dasherize
 		
 		
-		str
+		str # pseudo return
 	end
 end
 
