@@ -39,6 +39,8 @@ date = Time.now.strftime("%Y-%m-%d")
 
 
 
+require 'fileutils'
+
 
 path_to_file = File.expand_path(File.dirname(__FILE__))
 Dir.chdir path_to_file do
@@ -106,4 +108,15 @@ end
 		
 		
 		str # pseudo return
+	end
+
+
+
+
+
+# directory structure
+	Dir.chdir output_dir do
+		%w[bin ext lib test].each do |dirname|
+			FileUtils.mkdir_p(dirname) unless File.directory?(dirname)
+		end
 	end
