@@ -30,6 +30,8 @@ def initialize(output_dir, config={})
 end
 
 def run
+	FileUtils.mkdir_p(@output_dir) unless File.directory?(@output_dir)
+	
 	readme
 	gemspec
 	rakefile
