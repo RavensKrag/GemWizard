@@ -15,8 +15,11 @@ module GemWizard
 
 
 def initialize(template_dir, output_dir, config={})
+	# Set default parameters of config
+	config[:date] ||= Time.now.strftime("%Y-%m-%d")
+	
+	# Set other variables
 	@template_project_name = 'automaton'
-	@date = Time.now.strftime("%Y-%m-%d")
 	
 	@template_dir = template_dir
 	@output_dir   = output_dir
