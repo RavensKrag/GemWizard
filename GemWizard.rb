@@ -13,17 +13,16 @@ Dir[File.join(template_dir, 'README.*')]
 # ===== config =====
 # ==================
 
-name = "gem name"
-
 config = {
+	name: "gem name",
 	authors: ["Raven"],
-	email: "'AvantFlux.Raven@gmail.com'",
-	homepage: "'https://github.com/RavensKrag'",
-	summary: "'TL;DR'",
-	description: "<<-EOS
+	email: 'AvantFlux.Raven@gmail.com',
+	homepage: 'https://github.com/RavensKrag',
+	summary: 'TL;DR',
+	description: <<-EOS
 	many lines of text
 	so many lines, of so much text
-EOS"
+EOS
 }
 
 # ================== 
@@ -102,15 +101,15 @@ input_path = File.join template_dir, "#{template_project_name}.gemspec"
 str = File.readlines(input_path).join
 
 	# replace names of the gem
-	str.gsub! /#{template_project_name.dasherize}/, name.dasherize
-	str.gsub! /#{template_project_name.constantize}/, name.constantize
+	str.gsub! /#{template_project_name.dasherize}/, config[:name].dasherize
+	str.gsub! /#{template_project_name.constantize}/, config[:name].constantize
 	
 	# replace parameters
 	[:authors, :email, :homepage, :summary, :description].each do |param|
-		str.gsub! /(s\.#{param}(?:.*?)= )(.*?)$/, '\1'+"#{config[param]}"
+		str.gsub! /(s\.#{param}(?:.*?)= )(.*?)$/, '\1'+"#{config[param].inspect}"
 	end
 
-output_path = File.join output_dir, "#{name.dasherize}.gemspec"
+output_path = File.join output_dir, "#{config[:name].dasherize}.gemspec"
 File.open(output_path, 'w') do |f|
 	f.puts str
 end
@@ -118,5 +117,16 @@ end
 
 
 # rakefile
+input_path = File.join template_dir, 'Rakefile'
+lines = File.readlines(input_path)
+str = lines.join
+
+	# replace names of the gem
+	str.gsub! /#{template_project_name.dasherize}/, config[:name].dasherize
+	str.gsub! /#{template_project_name.constantize}/, config[:name].constantize
 
 
+output_path = File.join output_dir, 'Rakefile'
+File.open(output_path, 'w') do |f|
+	f.puts str
+end
