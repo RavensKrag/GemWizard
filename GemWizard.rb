@@ -135,21 +135,27 @@ end
 	# copy over files
 	input_name  = template_project_name.dasherize
 	output_name = config[:name].dasherize
-	{
-		'README.txt' => 'README.txt',
-		File.join(input_name, "extconf.rb") => File.join(output_name, "extconf.rb"),
-		File.join(input_name, "#{input_name}.c") => File.join(output_name, "#{output_name}.c"),
-		File.join(input_name, "#{input_name}.h") => File.join(output_name, "#{output_name}.h")
 	
-	}.each do |input_filename, output_filename|
-		input_path  = File.join template_dir, 'ext', input_filename
-		output_path = File.join output_dir,   'ext', output_filename
+	
+	# (generate nested array structure of paired template/destination relative filepaths)
+	path = File.join '.', 'ext', input_name.dasherize, '*'
+	templates = nil
+	Dir.chdir template_dir do
+		templates = Dir[path]
+	end
+	
+	list = templates.zip templates.collect{|i| i.gsub /#{input_name}/, output_name}
+	
+	
+	# (traverse list, copying over things as necessary)
+	list.each do |input, output|
+		full_input_path = File.expand_path input, template_dir
+		full_output_path = File.expand_path output, output_dir
 		
-		make_from_template input_path, output_path do |str|
+		make_from_template full_input_path, full_output_path do |str|
 			str
 		end
 	end
-	
 
 # lib
 	
