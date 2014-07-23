@@ -79,6 +79,21 @@ class String
 end
 
 
+def make_from_template(input_file, output_file, &block)
+	# read in template
+	str = File.readlines(input_file).join
+	
+	# mutate text
+	str = block.call str
+	
+	# output new file
+	File.open(output_file, 'w') do |f|
+		f.puts str
+	end
+	
+	return str
+end
+
 
 
 
@@ -98,8 +113,9 @@ end
 
 # gemspec
 input_path = File.join template_dir, "#{template_project_name}.gemspec"
-str = File.readlines(input_path).join
+output_path = File.join output_dir, "#{config[:name].dasherize}.gemspec"
 
+make_from_template input_path, output_path do |str|
 	# replace names of the gem
 	str.gsub! /#{template_project_name.dasherize}/, config[:name].dasherize
 	str.gsub! /#{template_project_name.constantize}/, config[:name].constantize
@@ -108,25 +124,22 @@ str = File.readlines(input_path).join
 	[:authors, :email, :homepage, :summary, :description].each do |param|
 		str.gsub! /(s\.#{param}(?:.*?)= )(.*?)$/, '\1'+"#{config[param].inspect}"
 	end
-
-output_path = File.join output_dir, "#{config[:name].dasherize}.gemspec"
-File.open(output_path, 'w') do |f|
-	f.puts str
+	
+	
+	
+	str # pseudo return
 end
-
 
 
 # rakefile
 input_path = File.join template_dir, 'Rakefile'
-lines = File.readlines(input_path)
-str = lines.join
+output_path = File.join output_dir, 'Rakefile'
 
+make_from_template input_path, output_path do |str|
 	# replace names of the gem
 	str.gsub! /#{template_project_name.dasherize}/, config[:name].dasherize
 	str.gsub! /#{template_project_name.constantize}/, config[:name].constantize
-
-
-output_path = File.join output_dir, 'Rakefile'
-File.open(output_path, 'w') do |f|
-	f.puts str
+	
+	
+	str # pseudo return
 end
