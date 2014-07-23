@@ -14,16 +14,18 @@ module GemWizard
 	class Wizard
 
 
-def initialize(template_dir, output_dir, config={})
+def initialize(output_dir, config={})
 	# Set default parameters of config
 	config[:date] ||= Time.now.strftime("%Y-%m-%d")
 	
 	# Set other variables
-	@template_project_name = 'automaton'
+	@template_project_name = 'example'
 	
-	@template_dir = template_dir
-	@output_dir   = output_dir
+	path_to_file = File.expand_path(File.dirname(__FILE__))
+	@template_dir = File.join path_to_file, 'template'
 	
+	
+	@output_dir = output_dir
 	@config = config
 end
 
@@ -206,19 +208,18 @@ end
 
 
 
-template_dir = "/home/ravenskrag/Code/Ruby/Gem template/"
-
 output_dir = "/home/ravenskrag/Code/SCRATCH_AREA/GEM_CREATION_TEST_DIR"
 
 
 config = {
-	name: "gem name",
+	name: "example",
 	date: Time.now.strftime("%Y-%m-%d"),
-	authors: ["Raven"],
-	email: 'AvantFlux.Raven@gmail.com',
-	homepage: 'https://github.com/RavensKrag',
-	summary: 'TL;DR',
+	authors: ["NAME"],
+	email: 'address@provider.com',
+	homepage: 'https://test.com/index.html',
+	summary: 'short summary',
 	description: <<-EOS
+	full description of the library goes in this section
 	many lines of text
 	so many lines, of so much text
 EOS
@@ -227,5 +228,5 @@ EOS
 # ================== 
 # ==================
 
-wizard = GemWizard::Wizard.new template_dir, output_dir, config
+wizard = GemWizard::Wizard.new output_dir, config
 wizard.run
